@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Rent-Invest</title>
+	<script src="http://d3js.org/d3.v5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.9.1/d3-tip.js"></script>
+	<style type="text/css">
+		.buttonSubmit {
+			background-color: #4CAF50;
+			/* Green */
+			border: green;
+			border-radius: 4px;
+			color: white;
+			padding: 10px 150px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 4px 2px;
+			cursor: pointer;
+		}
+
+		td {
+			font-size: 20px;
+			padding: 10px;
+		}
+
+		select {
+			font-size: 20px;
+		}
+
+		input {
+			size: 15;
+		}
+
+		input[type="text"] {
+			font-size: 20px;
+		}
+
+		h1 {
+			font-size: 30px;
+		}
+
+		.d3-tip {
+			line-height: 1;
+			padding: 6px;
+			background: rgba(0, 0, 0, 0.8);
+			color: #fff;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+
+		/* Creates a small triangle extender for the tooltip */
+		.d3-tip:after {
+			box-sizing: border-box;
+			display: inline;
+			font-size: 10px;
+			width: 100%;
+			line-height: 1;
+			color: rgba(0, 0, 0, 0.8);
+			content: "\25BC";
+			position: absolute;
+			text-align: center;
+		}
+
+		/* Style northward tooltips specifically */
+		.d3-tip.n:after {
+			margin: -2px 0 0 0;
+			top: 100%;
+			left: 0;
+		}
+
+		.axis path,
+		.axis line {
+			fill: none;
+			stroke: black;
+			shape-rendering: crispEdges;
+		}
+
+		.axis text {
+			font-family: Arial;
+			font-size: 15px;
+		}
+
+		.pagebreak {
+			page-break-before: always;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div align="center">
+		<h1>Rent-Invest</h1>
+	</div>
+	<div align="center">
+		Tell us about your property...
+	</div>
+	<div align="center">
+		<form name="process" action="Output.html" method="GET">
+			<table>
+				<tr>
+					<td align="left">Zip Code</td>
+					<td align="left">
+						<!-- <input type="text" name="zip_code" size="10" placeholder="98087"> -->
+						<select id="zip_code" name="zipcode">
+							<option selected="98087">98087</option>
+							<option value="98052">98052</option>
+							<option value="98103">98103</option>
+							<option value="98115">98115</option>
+							<option value="98133">98133</option>
+							<option value="98122">98122</option>
+							<option value="98034">98034</option>
+							<option value="98104">98104</option>
+							<option value="98005">98005</option>
+							<option value="98119">98119</option>
+							<option value="98007">98007</option>
+							<option value="98101">98101</option>
+							<option value="98112">98112</option>
+							<option value="98126">98126</option>
+							<option value="98055">98055</option>
+							<option value="98056">98056</option>
+							<option value="98107">98107</option>
+							<option value="98032">98032</option>
+							<option value="98121">98121</option>
+							<option value="98116">98116</option>
+							<option value="98144">98144</option>
+							<option value="98109">98109</option>
+							<option value="98125">98125</option>
+							<option value="98004">98004</option>
+							<option value="98105">98105</option>
+							<option value="98118">98118</option>
+							<option value="98102">98102</option>
+							<option value="98405">98405</option>
+							<option value="98402">98402</option>
+							<option value="98012">98012</option>
+							<option value="98208">98208</option>
+							<option value="98204">98204</option>
+							<option value="98087">98087</option>
+							<option value="98201">98201</option>
+							<option value="98011">98011</option>
+							<option value="98037">98037</option>
+							</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Target Home Price</td>
+					<td align="left"><input type="text" name="target_home_price" size="10" placeholder="100000"> ($)</td>
+				</tr>
+				<tr>
+					<td align="left">Down Payment</td>
+					<td align="left"><input type="text" name="down_payment" size="10" placeholder="20"> (%)</td>
+				</tr>
+				<tr>
+					<td align="left">HOA</td>
+					<td align="left"><input type="text" name="hoa" size="10" placeholder="0"> ($)</td>
+				</tr>
+				<tr>
+					<td align="left">Square Feet</td>
+					<td align="left"><input type="text" name="square_feet" size="10" placeholder="1000"></td>
+				</tr>
+				<tr>
+					<td align="left">Bedrooms</td>
+					<td align="left">
+						<select id="bedroomId" name="bedroom">
+							<option selected="1">1</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<!-- <option value="5">5</option> -->
+							<!-- <option value="6">Condo</option>
+							<option value="7">DuplexTriplex</option> -->
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="left">Loan Years</td>
+					<td align="left"><input type="text" name="loan_years" size="10" placeholder="30"></td>
+				</tr>
+				<tr>
+					<td align="left">Interest Rate</td>
+					<td align="left"><input type="text" name="interest_rate" size="10" placeholder="5"> (%)</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div align="center">
+		<button type="button" onclick="submit()" class="buttonSubmit">Submit</button>
+	</div>
+	<div class="container" id="svg4" align="center"></div>
+	<div class="container" id="svg3" align="center"></div>
+	<div class="container" id="svg" align="center"></div>
+	<div class="container" id="svg2" align="center"></div>
+	<script type="text/javascript">
+
+		/* References:
+		 * https://bl.ocks.org/mjfoster83/7c9bdfd714ab2f2e39dd5c09057a55a0
+		 */
+
+		var first = true;
+
+		// SVG margins
+		var margin = {
+			top: 150,
+			bottom: 50,
+			left: 100,
+			right: 200
+		};
+
+		// SVG margins small
+		var smallMargin = {
+			top: 50,
+			bottom: 50,
+			left: 50,
+			right: 250
+		}
+
+		// SVG size
+		var w = 1000;
+		var h = 600;
+
+		// SVG size for Summary text
+		var w4 = 1000;
+		var h4 = 200;
+
+		// Create svg 1
+		var svg = d3.select("#svg")
+			.append("svg")
+			.attr("width", w)
+			.attr("height", h);
+
+		// Create svg 2
+		var svg2 = d3.select("#svg2")
+			.append("svg")
+			.attr("width", w)
+			.attr("height", h);
+
+		// Create svg 3
+		var svg3 = d3.select("#svg3")
+			.append("svg")
+			.attr("width", w)
+			.attr("height", h);
+
+		// Create svg 4
+		var svg4 = d3.select("#svg4")
+			.append("svg")
+			.attr("width", w4)
+			.attr("height", h4);
+
+		function submit() {
+			if (first) {
+				first = false
+			} else {
+				console.log("removing")
+				removeAll();
+			}
+
+			// Load data
+			var fileLoc = "./View_rent_investment_data_.csv";
+			d3.csv(fileLoc).then(function (data) {
+				var propertyTaxDataset = [];
+				data.forEach(function (row) {
+					propertyTaxDataset.push({
+						"ZipCode": row["ZipCode"],
+						"TaxRate": +row["PropertyTaxRate"],
+						"Rental1Bedroom": +row["RentalPrice1Bedroom"],
+						"Rental2Bedroom": +row["RentalPrice2Bedroom"],
+						"Rental3Bedroom": +row["RentalPrice3Bedroom"],
+						"Rental4Bedroom": +row["RentalPrice4Bedroom"],
+						"Rental5Bedroom": +row["RentalPrice5Bedroom"],
+						"RentalCondoCoop": +row["RentalPriceCondoCoop"],
+						"RentalDuplexTriplex": +row["RentalPriceDuplexTriplex"],
+						"Listing1Bedroom": +row["ListingPrice1Bedroom"],
+						"Listing2Bedroom": +row["ListingPrice2Bedroom"],
+						"Listing3Bedroom": +row["ListingPrice3Bedroom"],
+						"Listing4Bedroom": +row["ListingPrice4Bedroom"],
+						"Listing5Bedroom": +row["ListingPrice5Bedroom"],
+						"ListingPriceCondoCoop": +row["ListingPriceCondoCoop"],
+						"ListingPriceDuplexTriplex": +row["ListingPriceDuplexTriplex"],
+						"HouseValueFoercast": +row["HouseValueFoercast"],
+						"RentalValueFoercast": +row["RentalValueFoercast"]
+					});
+				});
+				// Function needs to be inside this ".then" to allow for the
+				// data to finish loading
+				processPlots(propertyTaxDataset);
+			});
+
+			// Main function to plot all graphs
+			function processPlots(propertyTaxDataset) {
+
+				var zip_code = document.process.zip_code.value;
+				if (zip_code == "") {
+					zip_code = 98087;
+				}
+				var down_payment = parseFloat(document.process.down_payment.value);
+				if (isNaN(down_payment)) {
+					down_payment = 20;
+				}
+				var target_home_price = parseFloat(document.process.target_home_price.value);
+				if (isNaN(target_home_price)) {
+					target_home_price = 100000;
+				}
+				var hoa = parseFloat(document.process.hoa.value);
+				if (isNaN(hoa)) {
+					hoa = 0;
+				}
+				var square_feet = parseFloat(document.process.square_feet.value);
+				if (isNaN(square_feet)) {
+					square_feet = 1000;
+				}
+				var bedrooms = parseFloat(document.getElementById("bedroomId").value);
+				if (isNaN(bedrooms)) {
+					bedrooms = 1;
+				}
+				var loan_years = parseFloat(document.process.loan_years.value);
+				if (isNaN(loan_years)) {
+					loan_years = 30;
+				}
+				var interest_rate = parseFloat(document.process.interest_rate.value);
+				if (isNaN(interest_rate)) {
+					interest_rate = 5;
+				}
+
+				// Calculated values
+				var down_payment_amount = (down_payment / 100) * target_home_price;
+				var starting_loan_amount = target_home_price - down_payment_amount;
+				//console.log("starting loan amount: " + starting_loan_amount);
+
+				// Get property tax
+				var propertyTax = 0.01;		// Initialize to 1%
+				var houseValueYoYChange = target_home_price // Initliaze to target price now
+				var rentalIncomeYearlyIncrease = 1.05;
+				var appreciationYearly = 0.1;
+				var rentalPricePerSqft = 1.8;
+				var zipCodeFound = false;
+				for (var row of propertyTaxDataset) {
+					if (row["ZipCode"] == zip_code) {
+						zipCodeFound = true;
+						// console.log("Found property tax corresponding to zipcode");
+						propertyTax = row["TaxRate"] / 100;
+						houseValueYoYChange = target_home_price + (row["HouseValueFoercast"] * target_home_price);
+						// console.log("Calculated houseValueYoYChange: " + houseValueYoYChange);
+						appreciationYearly = row["HouseValueFoercast"]
+						rentalIncomeYearlyIncrease = 1 + (row["RentalValueFoercast"] / 100);
+						// console.log("Inside loop bedrooms :" +bedrooms);
+						switch (bedrooms) {
+							case 1:
+								rentalPricePerSqft = row["Rental1Bedroom"];
+								// console.log("Calculated Case 1 rentalPricePerSqft : " + rentalPricePerSqft);
+								break;
+							case 2:
+								rentalPricePerSqft = row["Rental2Bedroom"];
+								// console.log("Calculated Case 2 rentalPricePerSqft : " + rentalPricePerSqft);
+								break;
+							case 3:
+								rentalPricePerSqft = row["Rental3Bedroom"];
+								// console.log("Calculated Case 3 rentalPricePerSqft : " + rentalPricePerSqft);
+								break;
+							case 4:
+								rentalPricePerSqft = row["Rental4Bedroom"];
+								// console.log("Calculated Case 4 rentalPricePerSqft : " + rentalPricePerSqft);
+								break;
+							case 5:
+								rentalPricePerSqft = row["Rental5Bedroom"];
+								// console.log("Calculated Case 5 rentalPricePerSqft : " + rentalPricePerSqft);
+								break;
+							case 6:
+								rentalPricePerSqft = row["RentalCondoCoop"];
+								// console.log("Calculated Case 6 rentalPricePerSqft : " + rentalPricePerSqft);
+								break;
+							case 7:
+								rentalPricePerSqft = row["RentalDuplexTriplex"];
+								// console.log("Calculated Case 7 rentalPricePerSqft : " + rentalPricePerSqft);
+								break;
+						}
+						break;
+					}
+				}
+
+				if (!zipCodeFound){
+					displayInvalidZipCode();
+					return;
+				}
+
+				if (isNaN(rentalPricePerSqft)) {
+					rentalPricePerSqft = 1.8;
+				}
+
+				if (isNaN(appreciationYearly)) {
+					appreciationYearly = 0.1;
+				}
+
+				if (isNaN(propertyTax)) {
+					propertyTax = 0.1;
+				}
+
+				if (isNaN(houseValueYoYChange)) {
+					houseValueYoYChange = target_home_price;
+				}
+
+				if (isNaN(rentalIncomeYearlyIncrease)) {
+					rentalIncomeYearlyIncrease = 1.05;
+				}
+				var propertyManagementFee = 0.1;
+				var vacancyRepairs = 0.1;
+				var homeInsurance = 0.0022;
+				//var appreciationYearly = 0.1;
+
+				// Starting values
+				var startYear = 2020;
+				var rentalIncomeYearly = square_feet * rentalPricePerSqft * 12;
+				var startingMonthlyPrincipalInterest = getMonthlyPrincipalInterest(starting_loan_amount, interest_rate, loan_years);
+				var startingMonthlyInterest = getMonthlyInterest(starting_loan_amount, interest_rate);
+				var startingMonthlyPrincipal = startingMonthlyPrincipalInterest - startingMonthlyInterest;
+				var houseValue = target_home_price;
+				var yearlyDepreciation = target_home_price / 27.5;		// IRS defined
+				// console.log("Principal and Interest: " + startingMonthlyPrincipalInterest);
+				// console.log("starting principal: " + startingMonthlyPrincipal);
+				// console.log("starting interest: " + startingMonthlyInterest);
+
+				// Datasets for calculating principal and interest
+				var loanPaymentMonthlyDataset = [];
+				var loanPaymentYearlyDataset = [];
+				var loopPrincipalInterest = +startingMonthlyPrincipalInterest.toFixed(2);
+				var loopPrincipal = +startingMonthlyPrincipal.toFixed(2);
+				var loopInterest = +startingMonthlyInterest.toFixed(2);
+				var remainingLoan = +(starting_loan_amount - loopPrincipal).toFixed(2);
+				var yearlyPrincipalInterest = 0;
+				var yearlyPrincipal = 0;
+				var yearlyInterest = 0;
+				var year = startYear;
+				for (var i = 1; i < loan_years * 12 + 1; i++) {
+					loanPaymentMonthlyDataset.push([i, loopPrincipalInterest, loopPrincipal, loopInterest]);
+					yearlyPrincipalInterest += loopPrincipalInterest;
+					yearlyPrincipal += loopPrincipal;
+					yearlyInterest += loopInterest;
+					if (i % 12 == 0) {
+						loanPaymentYearlyDataset.push([year, +yearlyPrincipalInterest.toFixed(2), +yearlyPrincipal.toFixed(2), +yearlyInterest.toFixed(2)]);
+						yearlyPrincipalInterest = 0;
+						yearlyPrincipal = 0;
+						yearlyInterest = 0;
+						year++;
+					}
+					// console.log("month: " + i + ". remaining loan: " + remainingLoan + ". Interest: " + loopInterest + ". Principal: " + loopPrincipal);
+					loopInterest = +getMonthlyInterest(remainingLoan, interest_rate).toFixed(2);
+					loopPrincipal = +(startingMonthlyPrincipalInterest - loopInterest).toFixed(2);
+					remainingLoan = +(remainingLoan - loopPrincipal).toFixed(2);
+				}
+				// console.log(loanPaymentYearlyDataset);
+
+				// loanAmount - current loan amount
+				// interestRate - annual interest rate
+				// loanYears - total number of loan years
+				function getMonthlyPrincipalInterest(loanAmount, interestRate, loanYears) {
+					return loanAmount * (interestRate / 12 / 100) * Math.pow(1 + (interestRate / 12 / 100), (loanYears * 12)) / (Math.pow(1 + (interestRate / 12 / 100), (loanYears * 12)) - 1);
+				}
+				function getMonthlyInterest(loanAmount, interestRate) {
+					return (interestRate / 12 / 100) * loanAmount;
+				}
+
+				// Datasets
+				var rentalIncomeDataset = [];
+				var principal = [];
+				var interest = [];
+				var propertyManagementDataset = [];
+				var leasingFeeDataset = [];
+				var vacancyRepairsDataset = [];
+				var homeInsuranceDataset = [];
+				var propertyTaxDataset = [];
+				var houseValueDataset = [];
+				var totalExpenseDataset = [];
+				var combinedExpenseDataset = [];
+				var profitDataset = [];
+				var totalTaxDeductionDataset = [];
+				var cashRoiDataset = [];
+				var stackData = [];
+				var taxDeductStackData = [];
+				var cashRoiStackData = [];
+
+				// ROI total
+				var roiTotal = 0;
+
+				// Create dataset for rental income and expenses
+				for (var i = 0; i < 11; i++) {
+					houseValueDataset.push([startYear, houseValue]);
+
+					propertyTaxDataset.push([startYear, houseValue * propertyTax]);
+
+					rentalIncomeDataset.push([startYear, rentalIncomeYearly]);
+
+					propertyManagementDataset.push([startYear, rentalIncomeYearly * propertyManagementFee]);
+
+					leasingFeeDataset.push([startYear, rentalIncomeYearly / 12 / 2]);
+
+					vacancyRepairsDataset.push([startYear, rentalIncomeYearly * vacancyRepairs]);
+
+					homeInsuranceDataset.push([startYear, (starting_loan_amount * homeInsurance)])
+
+					var totalExpense = propertyManagementDataset[i][1] + leasingFeeDataset[i][1] + vacancyRepairsDataset[i][1] + propertyTaxDataset[i][1] + homeInsuranceDataset[i][1] + loanPaymentYearlyDataset[i][1] + (hoa * 12);
+
+					totalExpenseDataset.push([startYear, totalExpense]);
+
+					profitDataset.push([startYear, rentalIncomeDataset[i][1] - totalExpense])
+
+					totalTaxDeductionDataset.push([startYear, yearlyDepreciation + loanPaymentYearlyDataset[i][3] + homeInsuranceDataset[i][1] + propertyTaxDataset[i][1] + propertyManagementDataset[i][1] + leasingFeeDataset[i][1] + vacancyRepairsDataset[i][1]])
+
+					cashRoiDataset.push([startYear, profitDataset[i][1] / down_payment_amount * 100]);
+
+					roiTotal += cashRoiDataset[i][1];
+
+					// Year, Principal, Interest, Home Insurance, Property Tax, Property Management, Leasing Fee, Vacancy/Repairs
+					combinedExpenseDataset.push([startYear, loanPaymentYearlyDataset[i][2], loanPaymentYearlyDataset[i][3], homeInsuranceDataset[i][1], propertyTaxDataset[i][1], propertyManagementDataset[i][1], leasingFeeDataset[i][1], vacancyRepairsDataset[i][1]]);
+
+					// Year, Profit, Principal, Interest, Property Management, Leasing Fee, Vacancy/Repairs, HOA
+					stackData.push({
+						year: startYear,
+						profit: profitDataset[i][1],
+						principal: loanPaymentYearlyDataset[i][2],
+						interest: loanPaymentYearlyDataset[i][3],
+						homeInsurance: homeInsuranceDataset[i][1],
+						propertyTax: propertyTaxDataset[i][1],
+						propertyManagement: propertyManagementDataset[i][1],
+						leasingFee: leasingFeeDataset[i][1],
+						vacancyRepairs: vacancyRepairsDataset[i][1],
+						HOA: hoa * 12
+					});
+					// Year, Depreciation, Interest, Property Tax
+					taxDeductStackData.push({
+						year: startYear,
+						depreciation: yearlyDepreciation,
+						interest: loanPaymentYearlyDataset[i][3],
+						homeInsurance: homeInsuranceDataset[i][1],
+						propertyTax: propertyTaxDataset[i][1],
+						propertyManagement: propertyManagementDataset[i][1],
+						leasingFee: leasingFeeDataset[i][1],
+						vacancyRepairs: vacancyRepairsDataset[i][1],
+					});
+
+					// Year, Cash on Cash ROI
+					cashRoiStackData.push({
+						year: startYear,
+						cashRoi: cashRoiDataset[i][1]
+					});
+					startYear += 1;
+					rentalIncomeYearly = rentalIncomeYearly * rentalIncomeYearlyIncrease;
+					houseValue = (1 + appreciationYearly) * houseValue;
+				}
+				// console.log(stackData);
+
+				// Calculate average ROI
+				var averageCashRoi = roiTotal / 11;
+				var investmentRisk = "MEDIUM";		// Initialize to medium
+				if (averageCashRoi > 15) {
+					investmentRisk = "LOW";
+				} else if (averageCashRoi <= 15 && averageCashRoi > 10) {
+					investmentRisk = "MEDIUM-LOW";
+				} else if (averageCashRoi <= 10 && averageCashRoi > 5) {
+					investmentRisk = "MEDIUM";
+				} else if (averageCashRoi <= 5 && averageCashRoi > 0) {
+					investmentRisk = "MEDIUM-HIGH";
+				} else if (averageCashRoi <= 0) {
+					investmentRisk = "HIGH";
+				}
+
+				// Create text for plot 4 - Summary text
+				svg4.append("text")
+					.text("Your Investment Risk: ")
+					.attr("x", (w4 / 2))
+					.attr("y", smallMargin.top)
+					.attr("font-size", 25)
+					.attr("text-anchor", "middle")
+					.attr("font-weight", "bold");
+				svg4.append("rect")
+					.attr("x", function () {
+						if (investmentRisk == "LOW") {
+							return w4 / 2 - 140 / 2;
+						} else if (investmentRisk == "MEDIUM-LOW") {
+							return w4 / 2 - 300 / 2;
+						} else if (investmentRisk == "MEDIUM") {
+							return w4 / 2 - 200 / 2;
+						} else if (investmentRisk == "MEDIUM-HIGH") {
+							return w4 / 2 - 300 / 2;
+						} else if (investmentRisk == "HIGH") {
+							return w4 / 2 - 140 / 2;
+						}
+					})
+					.attr("y", smallMargin.top + 23)
+					.attr("width", function () {
+						if (investmentRisk == "LOW") {
+							return 140;
+						} else if (investmentRisk == "MEDIUM-LOW") {
+							return 300;
+						} else if (investmentRisk == "MEDIUM") {
+							return 200;
+						} else if (investmentRisk == "MEDIUM-HIGH") {
+							return 300;
+						} else if (investmentRisk == "HIGH") {
+							return 140;
+						}
+					})
+					.attr("height", 50)
+					.style("fill", function () {
+						if (investmentRisk == "LOW") {
+							return "#40ff00";
+						} else if (investmentRisk == "MEDIUM-LOW") {
+							return "#bfff00";
+						} else if (investmentRisk == "MEDIUM") {
+							return "#ffff00";
+						} else if (investmentRisk == "MEDIUM-HIGH") {
+							return "#ff8000";
+						} else if (investmentRisk == "HIGH") {
+							return "#ff0000";
+						}
+					})
+					.style("text-anchor")
+				svg4.append("text")
+					.text(investmentRisk)
+					.attr("x", (w4 / 2))
+					.attr("y", smallMargin.top + 60)
+					.attr("font-size", 35)
+					.attr("fill", "black")
+					.attr("text-anchor", "middle")
+					.attr("font-weight", "bold");
+				svg4.append("text")
+					.text("Average Cash on Cash ROI over the 11 years:")
+					.attr("x", (w4 / 2))
+					.attr("y", h4 - 40)
+					.attr("font-size", 20)
+					.attr("fill", "black")
+					.attr("text-anchor", "middle")
+					.attr("font-weight", "bold");
+				svg4.append("text")
+					.text(d3.format(",.2f")(averageCashRoi) + "%")
+					.attr("x", (w4 / 2))
+					.attr("y", h4 - 10)
+					.attr("font-size", 25)
+					.attr("fill", "black")
+					.attr("text-anchor", "middle")
+					.attr("font-weight", "bold");
+
+				// Transpose data into layers plot 1
+				var stack = d3.stack()
+					.keys(["profit", "principal", "interest", "homeInsurance", "propertyTax", "propertyManagement", "leasingFee", "vacancyRepairs", "HOA"])
+					.order(d3.stackOrderNone)
+					.offset(d3.stackOffsetNone);
+				var series = stack(stackData);
+
+				// Transpose data into layers plot 2
+				var stack2 = d3.stack()
+					.keys(["depreciation", "interest", "homeInsurance", "propertyTax", "propertyManagement", "leasingFee", "vacancyRepairs"])
+					.order(d3.stackOrderNone)
+					.offset(d3.stackOffsetNone);
+				var series2 = stack2(taxDeductStackData);
+
+				// Transpose data into layers plot 3
+				var stack3 = d3.stack()
+					.keys(["cashRoi"])
+					.order(d3.stackOrderNone)
+					.offset(d3.stackOffsetNone);
+				var series3 = stack3(cashRoiStackData);
+
+				// Color paletes
+				var colors = ["#82b74b", "#d25c4d", "#f2b447", "#034f84", "#92a8d1", "#d9d574", "#6b5b95", "#d64161", "#3e4444"];
+				var colors2 = ["#eca1a6", "#f2b447", "#034f84", "#92a8d1", "#d9d574", "#6b5b95", "#d64161"];
+				var colors3 = ["#80ced6"];
+				var colors4 = ["#ff0000", "#ff8000", "#ffff00", "#bfff00", "#40ff00"];
+
+				// Create Income Axis and Scales
+				// Check for profit or loss to adjust y-axis
+				var minIncome = 0;
+				var minPercentage = 0;
+				if (profitDataset[0][1] < 0) {
+					// console.log("profit: " + profitDataset[0][1]);
+					minIncome = profitDataset[0][1];
+				}
+				if (cashRoiDataset[0][1] < 0) {
+					minPercentage = cashRoiDataset[0][1];
+					console.log("minPercentage: " + minPercentage);
+				}
+				var xScale = d3.scaleBand()
+					.range([margin.left, w - margin.right])
+					.padding(0.4)
+					.domain(rentalIncomeDataset.map(function (d) {
+						return d[0];
+					}));
+				var yScale = d3.scaleLinear()
+					.range([h - margin.bottom, margin.top])
+					.domain([minIncome, d3.max(rentalIncomeDataset, function (d) { return d[1]; })]).nice();
+				var yScale2 = d3.scaleLinear()
+					.range([h - margin.bottom, margin.top])
+					.domain([0, d3.max(rentalIncomeDataset, function (d) { return d[1]; }) + (-minIncome)]).nice();
+				var yScale3 = d3.scaleLinear()
+					.range([h - margin.bottom, margin.top])
+					.domain([minPercentage, Math.max(d3.max(cashRoiDataset, function (d) { return d[1]; }), 0)]).nice();
+
+				var zScale = d3.scaleOrdinal()
+					.range(colors);
+				var zScale2 = d3.scaleOrdinal()
+					.range(colors2);
+
+				var zScale3 = d3.scaleOrdinal()
+					.range(colors3);
+
+				// Years(x) axis
+				var xAxis = d3.axisBottom(xScale)
+					.ticks(rentalIncomeDataset.length).tickFormat(d3.format("d"));
+
+				// Dollars(y) axis - plot 1
+				var yAxis = d3.axisLeft(yScale)
+					.ticks(10);
+				// Dollars(y) axis - plot 2
+				var yAxis2 = d3.axisLeft(yScale2)
+					.ticks(10);
+				// Dollars(y) axis - plot 3
+				var yAxis3 = d3.axisLeft(yScale3)
+					.ticks(5);
+
+				// Create x-axis for plot 1
+				svg.append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(0," + (h - margin.bottom) + ")")
+					.call(xAxis);
+				// Create y-axis for plot 1
+				svg.append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(" + margin.left + ",0)")
+					.call(yAxis);
+
+				// Create x-axis for plot 2
+				svg2.append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(0," + (h - margin.bottom) + ")")
+					.call(xAxis);
+				// Create y-axis for plot 2
+				svg2.append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(" + margin.left + ",0)")
+					.call(yAxis2);
+
+				// Create x-axis for plot 3
+				svg3.append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(0," + (h - margin.bottom) + ")")
+					.call(xAxis);
+				// Create y-axis for plot 3
+				svg3.append("g")
+					.attr("class", "axis")
+					.attr("transform", "translate(" + margin.left + ",0)")
+					.call(yAxis3);
+
+				// Create plot title for plot 1
+				svg.append("text")
+					.text("Rental Income Breakdown - Expenses and Profits")
+					.attr("x", (w / 2))
+					.attr("y", margin.top - 30)
+					.attr("font-size", 25)
+					.attr("text-anchor", "middle")
+					.attr("font-weight", "bold");
+
+				// Create plot title for plot 2
+				svg2.append("text")
+					.text("Potential Tax Deductions")
+					.attr("x", (w / 2))
+					.attr("y", margin.top - 30)
+					.attr("font-size", 25)
+					.attr("text-anchor", "middle")
+					.attr("font-weight", "bold");
+
+				// Create plot title for plot 3
+				svg3.append("text")
+					.text("Cash on Cash Return on Investment")
+					.attr("x", (w / 2))
+					.attr("y", margin.top - 30)
+					.attr("font-size", 25)
+					.attr("text-anchor", "middle")
+					.attr("font-weight", "bold");
+
+				// Create x-axis label for plot 1
+				svg.append("text")
+					.text("Years")
+					.attr("class", "axis")
+					.attr("x", ((w - margin.right - margin.left) / 2 + margin.left))
+					.attr("y", h - margin.bottom + 50)
+					.attr("text-anchor", "middle")
+					.attr("font-size", 20);
+				// Create y-axis label for plot 1
+				svg.append("text")
+					.text("Dollars ($)")
+					.attr("transform", "rotate(-90)")
+					.attr("y", margin.left - 70)
+					.attr("x", -((h + margin.bottom) / 2))
+					.attr("text-anchor", "middle")
+					.attr("font-size", 20);
+
+				// Create x-axis label for plot 2
+				svg2.append("text")
+					.text("Years")
+					.attr("class", "axis")
+					.attr("x", ((w - margin.right - margin.left) / 2 + margin.left))
+					.attr("y", h - margin.bottom + 50)
+					.attr("text-anchor", "middle")
+					.attr("font-size", 20);
+				// Create y-axis label for plot 2
+				svg2.append("text")
+					.text("Dollars ($)")
+					.attr("transform", "rotate(-90)")
+					.attr("y", margin.left - 70)
+					.attr("x", -((h + margin.bottom) / 2))
+					.attr("text-anchor", "middle")
+					.attr("font-size", 20);
+
+				// Create x-axis label for plot 3
+				svg3.append("text")
+					.text("Years")
+					.attr("class", "axis")
+					.attr("x", ((w - margin.right - margin.left) / 2 + margin.left))
+					.attr("y", h - margin.bottom + 50)
+					.attr("text-anchor", "middle")
+					.attr("font-size", 20);
+				// Create y-axis label for plot 2
+				svg3.append("text")
+					.text("Percentage (%)")
+					.attr("transform", "rotate(-90)")
+					.attr("y", margin.left - 70)
+					.attr("x", -((h + margin.bottom) / 2))
+					.attr("text-anchor", "middle")
+					.attr("font-size", 20);
+
+
+				// Draw legends plot 1
+				var legend = svg.selectAll(".legend")
+					.data(colors)
+					.enter().append("g")
+					.attr("class", "legend")
+					.attr("transform", function (d, i) { return "translate(0," + i * 25 + ")"; });
+				legend.append("rect")
+					.attr("x", w - margin.right + 10)
+					.attr("y", margin.top)
+					.attr("width", 18)
+					.attr("height", 18)
+					.style("fill", function (d, i) { return colors.slice().reverse()[i]; });
+				legend.append("text")
+					.attr("x", w - margin.right + 40)
+					.attr("y", margin.top + 9)
+					.attr("dy", ".35em")
+					.style("text-anchor", "start")
+					.text(function (d, i) {
+						switch (i) {
+							case 0: return "HOA";
+							case 1: return "Vacancy Repairs";
+							case 2: return "Leasing Fee";
+							case 3: return "Property Management";
+							case 4: return "Property Tax";
+							case 5: return "Home Insurance";
+							case 6: return "Interest";
+							case 7: return "Principal";
+							case 8: return "Profit";
+						}
+					});
+
+				// Draw legends plot 2
+				var legend2 = svg2.selectAll(".legend")
+					.data(colors2)
+					.enter().append("g")
+					.attr("class", "legend")
+					.attr("transform", function (d, i) { return "translate(0," + i * 25 + ")"; });
+				legend2.append("rect")
+					.attr("x", w - margin.right + 10)
+					.attr("y", margin.top)
+					.attr("width", 18)
+					.attr("height", 18)
+					.style("fill", function (d, i) { return colors2.slice().reverse()[i]; });
+				legend2.append("text")
+					.attr("x", w - margin.right + 40)
+					.attr("y", margin.top + 9)
+					.attr("dy", ".35em")
+					.style("text-anchor", "start")
+					.text(function (d, i) {
+						switch (i) {
+							case 0: return "Vacancy Repairs";
+							case 1: return "Leasing Fee";
+							case 2: return "Property Management";
+							case 3: return "Property Tax";
+							case 4: return "Home Insurance";
+							case 5: return "Interest";
+							case 6: return "Depreciation";
+						}
+					});
+
+				// Draw legends plot 3
+				var legend3 = svg3.selectAll(".legend")
+					.data(colors3)
+					.enter().append("g")
+					.attr("class", "legend")
+					.attr("transform", function (d, i) { return "translate(0," + i * 25 + ")"; });
+				legend3.append("rect")
+					.attr("x", w - margin.right + 10)
+					.attr("y", margin.top)
+					.attr("width", 18)
+					.attr("height", 18)
+					.style("fill", function (d, i) { return colors3.slice().reverse()[i]; });
+				legend3.append("text")
+					.attr("x", w - margin.right + 40)
+					.attr("y", margin.top + 9)
+					.attr("dy", ".35em")
+					.style("text-anchor", "start")
+					.text(function (d, i) {
+						switch (i) {
+							case 0: return "Cash on Cash ROI";
+						}
+					});
+
+				// Draw legends plot 4
+				var legend4 = svg4.selectAll(".legend")
+					.data(colors4)
+					.enter().append("g")
+					.attr("class", "legend")
+					.attr("transform", function (d, i) { return "translate(0," + i * 25 + ")"; });
+				legend4.append("rect")
+					.attr("x", w4 - smallMargin.right)
+					.attr("y", smallMargin.top)
+					.attr("width", 18)
+					.attr("height", 18)
+					.style("fill", function (d, i) { return colors4.slice().reverse()[i]; });
+				legend4.append("text")
+					.attr("x", w4 - smallMargin.right + 30)
+					.attr("y", smallMargin.top + 9)
+					.attr("dy", ".35em")
+					.style("text-anchor", "start")
+					.text(function (d, i) {
+						switch (i) {
+							case 0: return "LOW ( > 15%)";
+							case 1: return "MEDIUM-LOW (10% - 15%)";
+							case 2: return "MEDIUM (5% - 10%)";
+							case 3: return "MEDIUM-HIGH (0% - 5%)";
+							case 4: return "HIGH ( < 0%)";
+						}
+					});
+
+				// ------------------Plot 1--------------------------------------------------
+				// Create groups for each series, rects for each segment
+				var groups = svg.selectAll("g.cost")
+					.data(series)
+					.enter().append("g")
+					.attr("class", "cost")
+					.attr("fill", function (d) { return zScale(d.key); })
+				// .style("fill", function(d, i) {return colors[i]; });
+				// Draw stacked bars
+				var rect = groups.selectAll("rect")
+					.data(function (d) { return d; })
+					.enter().append("rect")
+					.attr("x", function (d, i) {
+						// console.log("xvalue: " + xScale(stackData[i].year));
+						return xScale(stackData[i].year);
+					})
+					.attr("y", function (d) {
+						// console.log("yvalue: " + yScale(d[1]));
+						return yScale(d[1]);
+					})
+					.attr("height", function (d) { return yScale(d[0]) - yScale(d[1]); })
+					.attr("width", xScale.bandwidth())
+					.on("mouseover", function () { tooltip.style("display", null); })
+					.on("mouseout", function () { tooltip.style("display", "none"); })
+					.on("mousemove", function (d) {
+						var xPosition = d3.mouse(this)[0] - 15;
+						var yPosition = d3.mouse(this)[1] - 25;
+						tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+						tooltip.select("text").text("$ " + d3.format(",.2f")(d[1] - d[0]));
+					});
+				// Draw total income text
+				var label = groups.selectAll("text")
+					.data(rentalIncomeDataset)
+					.enter().append("text")
+					.text(function (d) {
+						return "$" + d3.format(",.2f")(d[1]);
+					})
+					.attr("x", function (d, i) { return xScale(d[0]); })
+					.attr("y", function (d) { return yScale(d[1]) - 5; })
+					.attr("font-size", "12px")
+					.style("fill", "black")
+					.attr("dx", "1.4em")
+					.style("text-anchor", "middle");
+
+
+				// ------------------Plot 2--------------------------------------------------
+				// Create groups for each series, rects for each segment
+				var groups2 = svg2.selectAll("g.cost")
+					.data(series2)
+					.enter().append("g")
+					.attr("class", "cost")
+					.attr("fill", function (d) { return zScale2(d.key); })
+				// .style("fill", function(d, i) {return colors[i]; });
+				// Draw stacked bars
+				var rect2 = groups2.selectAll("rect")
+					.data(function (d) { return d; })
+					.enter().append("rect")
+					.attr("x", function (d, i) { return xScale(taxDeductStackData[i].year); })
+					.attr("y", function (d) { return yScale2(d[1]); })
+					.attr("height", function (d) { return yScale2(d[0]) - yScale2(d[1]); })
+					.attr("width", xScale.bandwidth())
+					.on("mouseover", function () { tooltip2.style("display", null); })
+					.on("mouseout", function () { tooltip2.style("display", "none"); })
+					.on("mousemove", function (d) {
+						var xPosition = d3.mouse(this)[0] - 15;
+						var yPosition = d3.mouse(this)[1] - 25;
+						tooltip2.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+						tooltip2.select("text").text("$ " + d3.format(",.2f")(d[1] - d[0]));
+					});
+				// Draw total tax deduction text
+				var label2 = groups2.selectAll("text")
+					.data(totalTaxDeductionDataset)
+					.enter().append("text")
+					.text(function (d) {
+						return "$" + d3.format(",.2f")(d[1]);
+					})
+					.attr("x", function (d, i) { return xScale(d[0]); })
+					.attr("y", function (d) { return yScale(d[1]) - 5; })
+					.attr("font-size", "12px")
+					.style("fill", "black")
+					.attr("dx", "1.4em")
+					.style("text-anchor", "middle");
+
+
+				// ------------------Plot 3--------------------------------------------------
+				// Create groups for each series, rects for each segment
+				var groups3 = svg3.selectAll("g.cost")
+					.data(series3)
+					.enter().append("g")
+					.attr("class", "cost")
+					.attr("fill", function (d) { return zScale3(d.key); })
+				// .style("fill", function(d, i) {return colors[i]; });
+				// Draw stacked bars
+				var rect3 = groups3.selectAll("rect")
+					.data(function (d) { return d; })
+					.enter().append("rect")
+					.attr("x", function (d, i) { return xScale(cashRoiStackData[i].year); })
+					.attr("y", function (d) {
+						if (d[1] >= 0) {
+							return yScale3(d[1]);
+						} else {
+							return yScale3(0);
+						}
+					})
+					.attr("height", function (d) { return Math.abs(yScale3(d[0]) - yScale3(d[1])); })
+					.attr("width", xScale.bandwidth())
+					.on("mouseover", function () { tooltip3.style("display", null); })
+					.on("mouseout", function () { tooltip3.style("display", "none"); })
+					.on("mousemove", function (d) {
+						var xPosition = d3.mouse(this)[0] - 15;
+						var yPosition = d3.mouse(this)[1] - 25;
+						tooltip3.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+						tooltip3.select("text").text(d3.format(",.2f")(d[1] - d[0]) + "%");
+					});
+
+				// Prep the tooltip bits, initial display is hidden. plot 1
+				var tooltip = svg.append("g")
+					.attr("class", "tooltip")
+					.style("display", "none");
+				tooltip.append("rect")
+					.attr("width", 60)
+					.attr("height", 20)
+					.attr("fill", "black")
+					.style("opacity", 1);
+				tooltip.append("text")
+					.attr("x", 30)
+					.attr("dy", "1.2em")
+					.style("text-anchor", "middle")
+					.attr("font-size", "12px")
+					.style("fill", "white")
+					.attr("font-weight", "bold");
+
+				// Prep the tooltip bits, initial display is hidden. plot 2
+				var tooltip2 = svg2.append("g")
+					.attr("class", "tooltip")
+					.style("display", "none");
+				tooltip2.append("rect")
+					.attr("width", 60)
+					.attr("height", 20)
+					.attr("fill", "black")
+					.style("opacity", 1);
+				tooltip2.append("text")
+					.attr("x", 30)
+					.attr("dy", "1.2em")
+					.style("text-anchor", "middle")
+					.attr("font-size", "12px")
+					.style("fill", "white")
+					.attr("font-weight", "bold");
+
+				// Prep the tooltip bits, initial display is hidden. plot 3
+				var tooltip3 = svg3.append("g")
+					.attr("class", "tooltip")
+					.style("display", "none");
+				tooltip3.append("rect")
+					.attr("width", 60)
+					.attr("height", 20)
+					.attr("fill", "black")
+					.style("opacity", 1);
+				tooltip3.append("text")
+					.attr("x", 30)
+					.attr("dy", "1.2em")
+					.style("text-anchor", "middle")
+					.attr("font-size", "12px")
+					.style("fill", "white")
+					.attr("font-weight", "bold");
+			}
+
+			function removeAll(d) {
+				svg.selectAll("*").remove();
+				svg2.selectAll("*").remove();
+				svg3.selectAll("*").remove();
+				svg4.selectAll("*").remove();
+			}
+
+			function displayInvalidZipCode() {
+				// Create text for plot 4 - Summary text
+				svg4.append("text")
+					.text("Invalid Zip Code in Seattle region. Please try again...")
+					.attr("x", (w4 / 2))
+					.attr("y", smallMargin.top)
+					.attr("font-size", 25)
+					.attr("text-anchor", "middle")
+					.attr("font-weight", "bold");
+			}
+		}
+
+	</script>
+</body>
+
+</html>

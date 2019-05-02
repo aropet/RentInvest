@@ -1,0 +1,7 @@
+ngrok http -subdomain=invest4rent 9615
+
+How to calculate linear-regression-analysis-excel:
+https://www.ablebits.com/office-addins-blog/2018/08/01/linear-regression-analysis-excel/
+
+
+https://docs.microsoft.com/en-us/azure/app-service/app-service-web-get-started-nodejs
